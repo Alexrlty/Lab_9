@@ -24,15 +24,17 @@ class MyStack:
         if not head_2:
             return
         if not head_2.next:
-            data = head.data
+            data = head_2.data
             head_2.next = None
+            self.head = None
             self.tail = None
             return data
 
         while True:
             if not head_2.next.next:
                 data = head_2.next.data
-                head_2.next = head_2.next.next
+                head_2.next = None
+                self.tail = head_2
                 break
             head_2 = head_2.next
         return data
