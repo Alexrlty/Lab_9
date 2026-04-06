@@ -1,28 +1,30 @@
-import queue
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
 
 class MyQueue:
     def __init__(self):
-        self.in_stack = queue.LifoQueue() # for real stack
-        self.out_stack = queue.LifoQueue() # to get first element
+        self.head = None
+        self.tail = None
 
     def push(self, x: int) -> None:
-        self.in_stack.put(x)
-
-    def _move(self) -> None: # move obj from in_stack into out_stack in invertet order
-        if self.out_stack.empty():
-            while not self.in_stack.empty():
-                self.out_stack.put(self.in_stack.get())
+        node = Node(x)
+        if not self.tail:
+            self.head = self.tail = node
+        else:
+            self.tail.next = node
+            self.tail = node
 
     def pop(self) -> int:
-        self._move()
-        return self.out_stack.get()
+        data = self.head.data
+        self.head = self.head.next
+        if not self.head:
+            self.tail = None
+        return data
 
     def peek(self) -> int:
-        self._move()
-        x = self.out_stack.get()
-        self.out_stack.put(x)
-        return x
+        return self.head.data
 
     def empty(self) -> bool:
-        return self.in_stack.empty() and self.out_stack.empty()
-
+        return self.head is None
